@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+
+<body>
+
+	<div id="app">
+		<label>
+			Пасажири:
+			<input type="number" v-model="passengers">
+		</label>
+		<div>
+			<label>
+				Автобуси:
+				<span>{{ autobus }}</span>
+			</label>
+		</div>
+		<div>
+			<label>
+				Бутилки Води:
+				<span>{{ sumBottlesOfWater }}</span>
+			</label>
+		</div>
+		<div>
+			<label>
+				Бутерброди:
+				<span>{{ sumSandwiches }}</span>
+			</label>
+		</div>
+	</div>
+	<hr>
+	<div id="app2">
+		<label>
+			Введіть номер місяця:
+			<input type="number" v-model="month">
+		</label>
+		<label style="display: block;">
+			Рекомендований одяг - <span>{{ clothes }}</span>
+		</label>
+		<img :src="forest" width="150" alt="">
+	</div>
+	<hr>
+	<div id="app3">
+		<div>
+			<label>
+				Введіть перше число:
+				<input type="number" v-model="firstNumber">
+			</label>
+			<label>
+				Введіть друге число:
+				<input type="number" v-model="secondNumber">
+			</label>
+		</div>
+		<button @click="generateNumber">Згенерувати число</button>
+		<div>
+			<span>{{finalNumber}}</span>
+		</div>
+	</div>
+	<hr>
+	<div id="app4">
+		<div>
+			Сума на рахунку:
+			<span class="main-span">{{mainSumm}}грн</span>
+			<br>
+			<span style="color: green;">+{{profit}}</span>
+			<br>
+			<span style="color: red;">-{{spendings}}</span>
+		</div>
+		<br>
+		<div style="margin-bottom: 10px;">
+			<label>
+				Зарахувати на рахунок
+				<input type="number" v-model="addSumm">
+			</label>
+			<button @click="addToBalance">Зарахувати</button>
+		</div>
+		<div style="margin-bottom: 10px;">
+			<label>
+				Зняти з рахунку
+				<input type="number" v-model="removeSumm">
+			</label>
+			<button @click="removeFromBalance">Зняти</button>
+		</div>
+		<div style="margin-bottom: 15px; border-bottom: 1px solid #000; padding-bottom: 5px;">
+			Відсотки за обслуговування:
+			<span>{{totalDeductedAmount}}грн</span>
+		</div>
+		<span>${{toDollar}}</span>
+		<br>
+		<span>€{{toEuro}}</span>
+	</div>
+	<hr>
+	<div id="app5">
+		<label>
+			Login:
+			<input type="text" v-model="login">
+		</label>
+		<label>
+			Password:
+			<input type="text" v-model="password">
+		</label>
+		<button @click="checkUser">Go</button>
+	</div>
+	<script>
+		const { createApp } = Vue
+
+		const app = createApp({
+			data() {
+				return {
+					passengers: 0,
+					buses: null,
+					bottlesOfWater: null,
+					sandwiches: null,
+				}
+			},
+			computed: {
+				autobus() {
+					return Math.ceil(this.passengers / 20);
+				},
+				sumBottlesOfWater() {
+					return Math.ceil(this.passengers * 2);
+				},
+				sumSandwiches() {
+					return Math.ceil(this.passengers * 3);
+				},
+			},
+		})
+		app.mount('#app');
+
+		const app2 = createApp({
+			data() {
+				return {
+					month: 0,
+				}
+			},
+			computed: {
+				clothes() {
+					if ((this.month > 0 && this.month < 3) || this.month === 12) {
+						return "Це зима, тому - шапка, куртка, теплі штани та черевики";
+					} else if (this.month > 2 && this.month < 6) {
+						return "Це весна, тому - легенька курточка або кофта, штани, можна кросівки ";
+					} else if (this.month > 5 && this.month < 9) {
+						return "Це літо, тому - футболка, кросівки, шорти, кепка, сонячні окуляри ";
+					} else if (this.month > 8 && this.month < 12) {
+						return "Це осінь, тому те саме, що і весною - легенька курточка або кофта, штани, можна кросівки ";
+					} else {
+						return `Місяця під номером ${this.month} не існує, не пробуйте мене обдурити)`
+					}
+				},
+				forest() {
+					if ((this.month > 0 && this.month < 3) || this.month === 12) {
+						return "./img/zima.jpg";
+					} else if (this.month > 2 && this.month < 6) {
+						return "./img/vesna.jpg";
+					} else if (this.month > 5 && this.month < 9) {
+						return "./img/lito.jpg";
+					} else if (this.month > 8 && this.month < 12) {
+						return "./img/osin.jpg";
+					} else {
+						return `Місяця під номером ${this.month} не існує, не пробуйте мене обдурити)`
+					}
+				}
+			},
+		})
+		app2.mount('#app2');
+
+		const app3 = createApp({
+			data() {
+				return {
+					firstNumber: 0,
+					secondNumber: 0,
+					finalNumber: null,
+				}
+			},
+			methods: {
+				generateNumber() {
+					if (this.firstNumber && this.secondNumber) {
+						// console.log(Math.floor(Math.random() * (this.secondNumber - this.firstNumber + 1)) + this.firstNumber);
+						this.finalNumber = Math.floor(Math.random() * (this.secondNumber - this.firstNumber + 1)) + this.firstNumber;
+					}
+				}
+			},
+		})
+		app3.mount('#app3');
+
+		const app4 = createApp({
+			data() {
+				return {
+					mainSumm: 0,
+					dollarRate: 37,
+					euroRate: 40,
+					addSumm: null,
+					removeSumm: null,
+					totalDeductedAmount: 0,
+					deductedAmount: 0,
+					profit: 0,
+					spendings: 0,
+				}
+			},
+			computed: {
+				toDollar() {
+					return (this.mainSumm / this.dollarRate).toFixed(2)
+				},
+				toEuro() {
+					return (this.mainSumm / this.euroRate).toFixed(2)
+				},
+			},
+			methods: {
+				addToBalance() {
+					if (this.addSumm <= 0) {
+						alert("Не можна зараховувати від'ємну суму або 0");
+					} else {
+						this.deductedAmount = this.addSumm * 0.03;
+						this.totalDeductedAmount += parseFloat((this.deductedAmount).toFixed(2));
+						this.profit += this.addSumm;
+						let result = (this.addSumm - this.deductedAmount).toFixed(2);
+						this.mainSumm += parseFloat(result);
+						// document.querySelector('.main-span').style.color = 'green';
+						this.addSumm = null;
+						this.checkBalance();
+					}
+				},
+				removeFromBalance() {
+					if (this.removeSumm <= 0) {
+						alert("Не можна зняти від'ємну суму або 0");
+					} else if (this.removeSumm > this.mainSumm) {
+						alert("Не можна зняти суму більшу, ніж у вас є на рахунку");
+					} else {
+						this.deductedAmount = this.removeSumm * 0.03;
+						this.totalDeductedAmount += parseFloat((this.deductedAmount).toFixed(2));
+						let result = (this.removeSumm - this.deductedAmount).toFixed(2);
+						this.mainSumm -= parseFloat(result);
+						this.spendings += this.removeSumm;
+						// document.querySelector('.main-span').style.color = 'red';
+						this.removeSumm = null;
+						this.checkBalance();
+					}
+				},
+				checkBalance() {
+					if (this.mainSumm >= 100 || this.addSumm) {
+						document.querySelector('.main-span').style.color = 'green';
+					} else if (this.mainSumm < 100 || this.removeSumm) {
+						document.querySelector('.main-span').style.color = 'red';
+					}
+				},
+
+			}
+		})
+		app4.mount('#app4');
+
+		const app5 = createApp({
+			data() {
+				return {
+					login: null,
+					password: null,
+					users: [
+						user1 = {
+							login: 'login',
+							password: 'password'
+						},
+						user2 = {
+							login: 'login2',
+							password: 'password2'
+						},
+						user3 = {
+							login: 'login3',
+							password: 'password3'
+						},
+						user4 = {
+							login: 'login4',
+							password: 'password4'
+						},
+					]
+				}
+			},
+			methods: {
+				checkUser() {
+					let isLoginValid = false;
+					for (let i = 0; i < this.users.length; i++) {
+						let user = this.users[i];
+						if (user.login === this.login && user.password === this.password) {
+							isLoginValid = true;
+							break;
+						}
+					}
+
+					if (isLoginValid) {
+						alert('Ласкаво просимо!');
+						this.login = null;
+						this.password = null;
+					} else {
+						alert('Логін або пароль невірні:(');
+					}
+				},
+			},
+		})
+		app5.mount('#app5');
+	</script>
+</body>
+
+</html>
